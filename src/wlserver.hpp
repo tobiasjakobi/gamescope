@@ -130,6 +130,8 @@ struct wlserver_t {
 	std::unordered_map<struct wlr_surface *, std::pair<int, int>> current_dropdown_surfaces;
 	double mouse_surface_cursorx = 0.0f;
 	double mouse_surface_cursory = 0.0f;
+	double mouse_motion_bufferx = 0.0f;
+	double mouse_motion_buffery = 0.0f;
 	bool mouse_constraint_requires_warp = false;
 	pixman_region32_t confine;
 	std::atomic<struct wlr_pointer_constraint_v1 *> mouse_constraint = { nullptr };

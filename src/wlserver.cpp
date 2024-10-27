@@ -2332,6 +2332,23 @@ void wlserver_mousemotion( double dx, double dy, uint32_t time )
 	dx *= g_mouseSensitivity;
 	dy *= g_mouseSensitivity;
 
+	auto apply_buffering = [](double in, double &buf) -> double {
+		in += buf;
+
+		const auto ret = std::trunc(in);
+
+		buf = in - ret;
+
+		return ret;
+	};
+
+	dx = apply_buffering(dx, wlserver.mouse_motion_bufferx);
+	dy = apply_buffering(dy, wlserver.mouse_motion_buffery);
+
+	if (dx == 0.0 && dy == 0.0) {
+		return;
+	}
+
 	wlserver_perform_rel_pointer_motion( dx, dy );
 
 	if ( !wlserver_apply_constraint( &dx, &dy ) )
